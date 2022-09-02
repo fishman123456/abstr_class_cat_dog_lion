@@ -1,4 +1,4 @@
-﻿// abstr_class_cat_dog_lion.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+﻿// abstr_class_Worker_Manager_lion.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
 // Employer_abstr_class.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
@@ -8,69 +8,80 @@
 //          Worker.Переопределите функцию Print() для вывода
 //          информации, соответствующей каждому типу слу -
 //          жащего.
-
 #include <iostream>
 #include <string.h>
 using namespace std;
-//абстрактный базовый класс
-class Animal
+//абстрактный базовый класс Работодатель
+class Employer
 {
 public:
-	//кличка животного
-	string Title;
-	//простой конструктор
-	Animal(string t) {
-		Title = t;
+	//имя сотрудника
+	string title;
+	int age{0};
+	Employer(string t) {
+		title.swap(t); //элемент-функция для обмена содержимого строк
 	}
+	//возраст сотрудника
 	//чисто виртуальная функция
-	virtual void speak() = 0;
-};
-//класс лягушка
-class Frog : public Animal
-{
-public:
-	Frog(string Title) : Animal(Title) {};
-	virtual void speak() {
-		cout << Title << " say " << "\'kwa-kwa\'\n";
-	}
-};//класс собака
-class Dog : public Animal
-{
-public:
-	Dog(string Title) : Animal(Title) {};
-	virtual void speak() {
-		cout << Title << " say " << "\'gav-gav\'\n";
+	virtual void Print() = 0;
+	//virtual int Get_age() = 0;
+	int get_age(int age1)
+	{
+		return age;
 	}
 };
-//класс кошка
-class Cat : public Animal
+//класс президент
+class President : public Employer
 {
 public:
-	Cat(string Title) : Animal(Title) {};
-	virtual void speak() {
-		cout << Title << " say " << "\'myau-myau\'\n";
+	President(string title1) : Employer (title1) {};
+	
+	int get_age();
+
+	virtual void Print() {
+		cout << " President "<<"\t" << title << "\t";
+		cout << " возраст " << age << "\n";
 	}
+	
+	
 };
-//класс лев
-class Lion : public Cat
+//класс менеджер
+class Manager : public Employer
 {
 public:
-	Lion(string Title) : Cat(Title) {};
-	virtual void speak() {
-		cout << Title << " say " << "\'rrr-rrr\'\n";
+	Manager(string title) : Employer(title) {};
+	virtual void Print() {
+		cout << " Manager " <<"\t" << title << "\t";
+		cout << " возраст " << age << "\n";
 	}
 };
-int main()
+//класс рабочий
+class Worker : public Employer
 {
-	//объявим массив указателей на базовый класс Animal
+public:
+	Worker(string title) : Employer(title) {};
+	virtual void Print() {
+		cout << " Worker " << "\t" << title << "\t";
+		cout << " возраст " << age << "\n";
+	}
+};
+void main()
+{
+	system("chcp 1251");
+	//объявим массив указателей на базовый класс Employer
 	//и сразу его заполним указателями, создавая объекты
 	//cписок животных
-	Animal* animals[4] =
+	Employer* Employers[3] =
 	{
-	new Dog("Bob"),
-	new Cat("Murka"),
-	new Frog("Vasya"),
-	new Lion("King") };
-	for (int k = 0; k < 4; k++)
-		animals[k]->speak();
+		new President("Путин"),
+		new Manager("Денис"),
+		new Worker("Саня"),
+	};
+	for (int k = 0; k < 3; k++)
+		Employers[k]->Print();
+}
+
+int President::get_age()
+{
+	return age;
 }
